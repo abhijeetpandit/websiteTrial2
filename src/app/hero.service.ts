@@ -18,11 +18,14 @@ export class HeroService {
 
   getHero(id: Number): Observable<Hero> {
     const url = '${this.heroesUrl}/${id}';
-    return of(HEROES.find(hero => hero.id === id ));
+    return this.http.get<Hero>(url).pipe(
+      tap(_ => this.log('fetched Hero id=${id}')),
+      catchError(this.handleError<Hero>('getHero id=${id}'))
+    );
   }
 
   private log(message: string) {
-    this.messageService.add('HeroService:${message}');
+    this.messageService.add('HeroService: ${message}');
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
