@@ -17,21 +17,21 @@ export class HeroService {
   }
 
   getHero(id: Number): Observable<Hero> {
-    const url = '${this.heroesUrl}/${id}';
+    const url = `${this.heroesUrl}/${id}`;
     return this.http.get<Hero>(url).pipe(
-      tap(_ => this.log('fetched Hero id=${id}')),
-      catchError(this.handleError<Hero>('getHero id=${id}'))
+      tap(_ => this.log(`fetched Hero id=${id}`)),
+      catchError(this.handleError<Hero>(`getHero id=${id}`))
     );
   }
 
   private log(message: string) {
-    this.messageService.add('HeroService: ${message}');
+    this.messageService.add(`HeroService: ${message}`);
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
-      this.log('${operation} failed: ${error.message}');
+      this.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     }
   }
